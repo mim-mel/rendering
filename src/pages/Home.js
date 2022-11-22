@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [localPosts, setLocalPosts] = useState([]);
@@ -8,14 +9,16 @@ const Home = () => {
     setLocalPosts(prevPost);
   }, []);
 
-  console.log(localPosts);
-
   return (
-    <div>
+    <>
       {localPosts.map(post => (
-        <div>{post.id}</div>
+        <div key={post.id}>
+          <Link style={{ display: 'block' }} to={`/post/${post.id}`}>
+            {post.title}
+          </Link>
+        </div>
       ))}
-    </div>
+    </>
   );
 };
 
