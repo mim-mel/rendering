@@ -13,7 +13,7 @@ const Home = () => {
     <>
       {localPosts.map(post => (
         <div key={post.id}>
-          <Link style={{ display: 'block' }} to={`/post/${post.id}`}>
+          <Link style={{ display: 'block' }} to={`/detail/${post.id}`}>
             {post.title}
           </Link>
         </div>
