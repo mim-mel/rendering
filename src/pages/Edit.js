@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 
 const Edit = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [post, setPost] = useState([]);
   const [title, setTitle] = useState('');
@@ -16,10 +17,41 @@ const Edit = () => {
       post => parseInt(post.id) === parseInt(id)
     );
     setPost(currentPost);
-    setTitle(post.title);
-    setPassword(post.password);
-    setContent(post.content);
+    setTitle(currentPost.title);
+    setPassword(currentPost.password);
+    setContent(currentPost.content);
   }, []);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const hour = new Date().getHours();
+    const minutes = new Date().getMinutes();
+    const seconds = new Date().getSeconds();
+
+    let EditPost = {
+      title: title,
+      content: content,
+      password: password,
+      createAt:
+        hour + '시' + ' ' + minutes + '분' + ' ' + seconds + '초 ' + '수정',
+      id: id,
+    };
+
+    setTitle(e.target.value);
+
+    const posts = JSON.parse(localStorage.getItem('posts'));
+
+    const EditPosts = posts.map(it => {
+      if (parseInt(it.id) === parseInt(id)) {
+        return EditPost;
+      }
+      return it;
+    });
+
+    localStorage.setItem('posts', JSON.stringify(EditPosts));
+    navigate('/');
+  };
 
   return (
     <div>
@@ -28,19 +60,9 @@ const Edit = () => {
         <input
           type='title'
           value={title}
-          placeholder={post.title}
           onChange={e => {
             setTitle(e.target.value);
           }}
-        />
-        <input
-          type='password'
-          value={password}
-          placeholder='password'
-          onChange={e => {
-            setPassword(e.target.value);
-          }}
-          autoComplete='off'
         />
         <textarea
           type='content'
@@ -50,7 +72,13 @@ const Edit = () => {
             setContent(e.target.value);
           }}
         />
-        <button>제출</button>
+        <button
+          onClick={e => {
+            handleSubmit(e);
+          }}
+        >
+          제출
+        </button>
       </Form>
     </div>
   );
