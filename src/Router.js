@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Upload from './pages/Upload';
 import Detail from './pages/Detail';
 import Edit from './pages/Edit';
+import Layout from './pages/Layout';
 
 const Router = () => {
   // parameter = 매개 변수
@@ -17,10 +18,12 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/detail/:id' element={<Detail />} />
-        <Route path='/edit/:id' element={<Edit />} />
-        <Route path='/upload' element={<Upload />} />
+        <Route element={<Layout />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/detail/:id' element={<Detail />} />
+          <Route path='/edit/:id' element={<Edit />} />
+          <Route path='/upload' element={<Upload />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
