@@ -21,16 +21,26 @@ const Detail = () => {
   }, []);
 
   const onEdit = () => {
-    navigate(`/edit/${post.id}`);
+    const checkPW = prompt('비밀번호를 입력해주세요', '비밀번호');
+    if (post.password === checkPW) {
+      navigate(`/edit/${post.id}`);
+    } else {
+      alert('비빌번호가 일치하지 않습니다.');
+    }
   };
 
   const onDelete = () => {
-    const getPost = JSON.parse(localStorage.getItem('posts'));
-    const removedPost = getPost.filter(
-      post => parseInt(post.id) !== parseInt(id)
-    );
-    localStorage.setItem('posts', JSON.stringify(removedPost));
-    navigate('/');
+    const checkPW = prompt('비밀번호를 입력해주세요', '비밀번호');
+    if (post.password === checkPW) {
+      const getPost = JSON.parse(localStorage.getItem('posts'));
+      const removedPost = getPost.filter(
+        post => parseInt(post.id) !== parseInt(id)
+      );
+      localStorage.setItem('posts', JSON.stringify(removedPost));
+      navigate('/');
+    } else {
+      alert('비빌번호가 일치하지 않습니다.');
+    }
   };
 
   if (true) {
