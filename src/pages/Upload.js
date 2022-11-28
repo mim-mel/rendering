@@ -43,7 +43,7 @@ const Upload = () => {
   };
 
   return (
-    <div>
+    <UploadWrap>
       <h1>Upload</h1>
       <Form>
         <input
@@ -73,9 +73,22 @@ const Upload = () => {
         />
         <button onClick={onSubmit}>제출</button>
       </Form>
-    </div>
+    </UploadWrap>
   );
 };
+
+const UploadWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  h1 {
+    text-align: left;
+  }
+`;
 
 const Form = styled.form`
   display: block;
