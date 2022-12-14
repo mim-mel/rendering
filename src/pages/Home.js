@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { modeState } from '../recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const Home = () => {
   const [localPosts, setLocalPosts] = useState([]);
@@ -10,17 +12,28 @@ const Home = () => {
     setLocalPosts(prevPost);
   }, []);
 
+  const current = useRecoilValue(modeState);
+  const elementColor = current.elementColor;
+  const textColor = current.textColor;
+
   return (
     <HomeWrap>
       <PostWrap>
-        {localPosts.map(post => (
-          <PostBlock key={post.id}>
-            <PostLink style={{ display: 'block' }} to={`/detail/${post.id}`}>
-              <PostTitie>{post.title}</PostTitie>
-              <PostContent>{post.content}</PostContent>
-            </PostLink>
-          </PostBlock>
-        ))}
+        {localPosts
+        ?
+        <div>
+          {localPosts.map(post => (
+            <PostBlock key={post.id} elementColor={elementColor}>
+              <PostLink style={{ display: 'block' }} to={`/detail/${post.id}`}>
+                <PostTitie textColor={textColor}>{post.title}</PostTitie>
+                <PostContent>{post.content}</PostContent>
+              </PostLink>
+            </PostBlock>
+          ))}
+        </div>
+        :
+        <div>Home</div>
+        }
       </PostWrap>
     </HomeWrap>
   );
@@ -48,6 +61,7 @@ const PostBlock = styled.div`
   justify-content: center;
   box-sizing: border-box;
   padding-left: 40px;
+  background-color: ${props=>props.elementColor};
 `;
 
 const PostLink = styled(Link)`
@@ -55,7 +69,7 @@ const PostLink = styled(Link)`
 `;
 
 const PostTitie = styled.div`
-  color: black;
+  color: ${(props)=>props.textColor};
   font-size: 17px;
   font-weight: 500;
 `;

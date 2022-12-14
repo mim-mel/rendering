@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { modeState } from '../recoil/atom';
+import { useRecoilValue } from 'recoil';
 
 const Upload = () => {
   // post 객체  -> title, content, password, createdAt, id
@@ -42,9 +44,12 @@ const Upload = () => {
     setContent('');
   };
 
+  const current = useRecoilValue(modeState);
+  const textColor = current.textColor;
+
   return (
     <UploadWrap>
-      <h1>Upload</h1>
+      <UploadTitle textColor={textColor}>Upload</UploadTitle>
       <Form>
         <input
           type='title'
@@ -79,16 +84,20 @@ const Upload = () => {
 
 const UploadWrap = styled.div`
   width: 100%;
-  height: 100%;
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  h1 {
-    text-align: left;
-  }
 `;
+
+const UploadTitle = styled.div`
+  text-align: left;
+  margin-bottom: 20px;
+  color: ${props=>props.textColor};
+  font-size: 28px;
+  font-weight: 600;
+`
 
 const Form = styled.form`
   display: block;
